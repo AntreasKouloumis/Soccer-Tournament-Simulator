@@ -5,13 +5,13 @@ namespace SoccerTournamentSimulator.Simulations.Teams
     /// <summary>
     /// Mock database of teams.
     /// </summary>
-    public class MockTeamsDatabase : ITeamDatabase
+    public class MockTeamDatabase : ITeamDatabase
     {
         public List<Team> Teams { get; private set; }
 
-        public MockTeamsDatabase()
+        public MockTeamDatabase()
         {
-            Teams = GenerateTeamsMockData();
+            Teams = MockGenerateTeamsData();
         }
 
         public List<int> GetTeamIds()
@@ -67,7 +67,7 @@ namespace SoccerTournamentSimulator.Simulations.Teams
             return new Tuple<Team, Team>(homeTeam, awayTeam);
         }
 
-        private List<Team> GenerateTeamsMockData()
+        private List<Team> MockGenerateTeamsData()
         {
             return new List<Team>()
             {
@@ -77,7 +77,7 @@ namespace SoccerTournamentSimulator.Simulations.Teams
                     "Galacticos FC",
                     new GoalKeeper(1,
                         "Diego Alves",
-                        0.9f,
+                        0.5f,
                         0.6f,
                         0.4f,
                         0.3f,
@@ -191,7 +191,7 @@ namespace SoccerTournamentSimulator.Simulations.Teams
                     "Red Devils United",
                     new GoalKeeper(12,
                         "David De Gea",
-                        0.9f,
+                        0.4f,
                         0.6f,
                         0.5f,
                         0.3f,
@@ -305,7 +305,7 @@ namespace SoccerTournamentSimulator.Simulations.Teams
                     "Blue Lions FC",
                     new GoalKeeper(23,
                         "Kepa Arrizabalaga",
-                        0.8f,
+                        0.5f,
                         0.6f,
                         0.4f,
                         0.2f,
@@ -419,7 +419,7 @@ namespace SoccerTournamentSimulator.Simulations.Teams
                     "Skyline Rovers",
                     new GoalKeeper(34,
                         "Manuel Neuer",
-                        0.9f,
+                        0.4f,
                         0.7f,
                         0.5f,
                         0.3f,

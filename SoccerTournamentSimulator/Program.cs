@@ -9,6 +9,8 @@ class Program
         
     static void Main(string[] args)
     {
-        simulationManager = new SimulationManager(new MockTeamsDatabase());
+        simulationManager = new SimulationManager(new MockTeamDatabase());
+
+        simulationManager.StartSimulation();
     }
 }

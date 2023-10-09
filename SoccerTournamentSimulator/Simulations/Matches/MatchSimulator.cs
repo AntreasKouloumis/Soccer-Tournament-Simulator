@@ -13,6 +13,20 @@ namespace SoccerTournamentSimulator.Simulations.Matches
     /// </summary>
     public class MatchSimulator
     {
+        /// <summary>Lower end of number of interactions per half a match.</summary>
+        public int MinimumInteractionsCount { get; private set; }
+
+        /// <summary>Higher end of number of interactions per half a match.</summary>
+        public int MaximumInteractionsCount { get; private set; }
+
+        /// <summary>Number of interactions per half a match.</summary>
+        public int MatchHalfInteractionsCount { get; private set; }
+
+        /// <summary>Number of interactions per match.</summary>
+        public int MatchInteractionsCount { get; private set; }
+
+        private Random random;
+
         private MatchScoreManager matchScoreManager;
         private BallPossessionManager ballPossessionManager;
         private InteractionSimulator interactionSimulator;
@@ -20,7 +34,7 @@ namespace SoccerTournamentSimulator.Simulations.Matches
         private TeamManager teamManager;
         private MatchStateManager matchStateManager;
         private AdvanceScoreManager advanceScoreManager;
-        
+
         public event EventHandler<MatchScoreEventArgs>? OnMatchEnded;
 
         public MatchSimulator(
@@ -30,7 +44,8 @@ namespace SoccerTournamentSimulator.Simulations.Matches
             ICoinTossManager coinTossManager,
             TeamManager teamManager,
             MatchStateManager matchStateManager,
-            AdvanceScoreManager advanceScoreManager)
+            AdvanceScoreManager advanceScoreManager,
+            Random random)
         {
             this.matchScoreManager = matchScoreManager;
             this.ballPossessionManager = ballPossessionManager;
@@ -39,6 +54,12 @@ namespace SoccerTournamentSimulator.Simulations.Matches
             this.teamManager = teamManager;
             this.matchStateManager = matchStateManager;
             this.advanceScoreManager = advanceScoreManager;
+            this.random = random;
+
+            MinimumInteractionsCount = 50;
+            MaximumInteractionsCount = 200;
+            MatchHalfInteractionsCount = random.Next(MinimumInteractionsCount, MaximumInteractionsCount + 1);
+            MatchInteractionsCount = MatchHalfInteractionsCount * 2;
         }
 
         /// <summary>
@@ -54,6 +75,7 @@ namespace SoccerTournamentSimulator.Simulations.Matches
         /// </summary>
         private void KickoffMatchSegment()
         {
+            
             matchStateManager.MoveToNextState();
             if (matchStateManager.IsFinalWhistle())
             {
@@ -108,12 +130,14 @@ namespace SoccerTournamentSimulator.Simulations.Matches
         /// </summary>
         private void SimulateMatchSegment()
         {
-            for (int i = interactionSimulator.MatchHalfInteractionsCount; i >= 0; i--)
+            for (int i = 0; i < MatchHalfInteractionsCount; i++)
             {
                 // Get actor and reactor.
                 Player playerActor = ballPossessionManager.BallPossessionPlayer;
-                PlayerPosition playerPosition = advanceScoreManager.GetPlayerPositionAccordingToInverseAdvanceScore();
-                Player playerReactor = GetOpposingTeam().GetRandomPlayerByPlayerPosition(playerPosition);
+                PlayerPosition opposingPlayerPosition = advanceScoreManager.
+                    GetPlayerPositionAccordingToInverseAdvanceScore();
+                Player playerReactor = GetOpposingTeam().
+                    GetRandomPlayerByPlayerPosition(opposingPlayerPosition);
 
                 // Get action and reaction success.
                 float actionSuccess = playerActor.GetPlayerActionSuccess(
@@ -136,7 +160,7 @@ namespace SoccerTournamentSimulator.Simulations.Matches
         /// <param name="playerAction">Player action that resulted in success.</param>
         private void OnActionSuccess(IPlayerAction playerAction)
         {
-            advanceScoreManager.UpdateAdvanceScore(playerAction);
+            playerAction.UpdateAdvanceScore(advanceScoreManager);
             switch (playerAction)
             {
                 case ShortPassPlayerAction or LongPassPlayerAction:
@@ -155,7 +179,7 @@ namespace SoccerTournamentSimulator.Simulations.Matches
         /// <param name="playerReactor">Player reactor that was involved in the action failure.</param>
         private void OnActionFailure(Player playerReactor)
         {
-            advanceScoreManager.ResetAdvanceScore();
+            advanceScoreManager.InvertAdvanceScore();
             SetBallPossessionToOpposingTeam();
             ballPossessionManager.SetBallPossessionToPlayer(playerReactor);
         }

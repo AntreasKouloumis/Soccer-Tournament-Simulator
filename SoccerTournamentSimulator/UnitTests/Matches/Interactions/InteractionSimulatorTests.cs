@@ -23,20 +23,6 @@ namespace SoccerTournamentSimulator.UnitTests.Matches.Interactions
     public class InteractionSimulatorTests
     {
         [TestMethod]
-        public void Constructor_ShouldInitializeMatchInteractionsCountWithinRange()
-        {
-            // Arrange: Controlled random value.
-            InteractionSimulator simulator = 
-                new InteractionSimulator(new ControlledRandom(600));
-
-            // Act
-            
-            // Assert
-            Assert.IsTrue(simulator.MatchHalfInteractionsCount >= simulator.MinimumInteractionsCount);
-            Assert.IsTrue(simulator.MatchHalfInteractionsCount <= simulator.MaximumInteractionsCount);
-        }
-
-        [TestMethod]
         public void SimulateInteraction_ShouldReturnFalseForReactionSuccess()
         {
             // Arrange: Controlled random value.

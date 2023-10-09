@@ -11,21 +11,26 @@
         /// <param name="leaderboard">Leaderboard to print.</param>
         public void PrintLeaderboard(Leaderboard leaderboard)
         {
-            Console.WriteLine("------------------------------------------------------------");
-            Console.WriteLine("| Team              |  GP  |  W   |  D   |  L   |  GF  |  GA  |  GD  | Pts  |");
-            Console.WriteLine("------------------------------------------------------------");
+            Console.WriteLine("_____________________________________________________________________________________________");
+            Console.WriteLine("|  Position  |         Team         |  GP  |  W   |  D   |  L   |  GF  |  GA  |  GD  | Pts  |");
+            Console.WriteLine("_____________________________________________________________________________________________");
 
             List<TeamStats> teamStats = leaderboard.TeamStats;
             for (int i = 0; i < teamStats.Count; i++)
             {
-                Console.WriteLine($"| {teamStats[i].IdData.Name} |  {teamStats[i].gamesPlayed}   " +
-                                  $"|  {teamStats[i].wins}   |  {teamStats[i].draws}   " +
-                                  $"|  {teamStats[i].losses}   |  {teamStats[i].goalsFor}   " +
-                                  $"|  {teamStats[i].goalsAgainst}   |  {teamStats[i].goalDifference}   " +
-                                  $"|  {teamStats[i].points}   |");
+                Console.WriteLine($"|     {i + 1}.     " +
+                                  $"| {teamStats[i].IdData.Name, -20} " +
+                                  $"|  {teamStats[i].gamesPlayed, -2}  " +
+                                  $"|  {teamStats[i].wins, -2}  " +
+                                  $"|  {teamStats[i].draws, -2}  " +
+                                  $"|  {teamStats[i].losses, -2}  " +
+                                  $"|  {teamStats[i].goalsFor, -2}  " +
+                                  $"|  {teamStats[i].goalsAgainst, -2}  " +
+                                  $"|  {teamStats[i].goalDifference, -2}  " +
+                                  $"|  {teamStats[i].points, -2}  |");
             }
 
-            Console.WriteLine("------------------------------------------------------------");
+            Console.WriteLine("_____________________________________________________________________________________________");
         }
     }
 }

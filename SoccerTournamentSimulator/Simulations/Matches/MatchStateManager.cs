@@ -7,7 +7,7 @@
     {
         public MatchState CurrentMatchState { get; private set; } = MatchState.Kickoff;
         
-        public void MoveToNextState() => CurrentMatchState++;
+        public MatchState MoveToNextState() => ++CurrentMatchState;
 
         public bool IsFirstHalf() => CurrentMatchState == MatchState.FirstHalf;
         

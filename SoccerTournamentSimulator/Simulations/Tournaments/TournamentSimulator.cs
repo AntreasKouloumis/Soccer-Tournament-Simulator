@@ -22,14 +22,15 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
         private ILeaderboardPrinter iLeaderboardPrinter;
         private MatchSimulator? matchSimulator;
 
-        private List<List<Tuple<IdData, IdData>>> pairingsIdData = 
+        private List<List<Tuple<IdData, IdData>>> pairingsIdData =
             new List<List<Tuple<IdData, IdData>>>();
+
         private int currentRoundIndex;
         private int currentMatchIndex;
 
         public event EventHandler<TournamentScoreEventArgs>? OnTournamentEnded;
         public event EventHandler<LeaderboardEventArgs>? OnLeaderboardUpdated;
-        
+
         private readonly Random random = new Random();
 
         public TournamentSimulator(ITeamDatabase teamDatabase,
@@ -53,6 +54,8 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
             List<int> teamIds = teamDatabase.GetTeamIds();
             pairingsIdData = ConvertToIdData(pairingsGenerator.GeneratePairings(teamIds));
             tournamentScoreManager.InitializeTournamentScore(pairingsIdData);
+            
+            leaderboardManager.InitializeLeaderboard(teamDatabase.GetTeamIdData());
 
             SimulateTournamentBracket(pairingsIdData[currentRoundIndex][currentMatchIndex]);
         }
@@ -64,15 +67,27 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
             {
                 List<Tuple<IdData, IdData>> roundIdData = new List<Tuple<IdData, IdData>>();
                 for (int j = 0; j < pairings[i].Count; j++)
-                {
                     roundIdData.Add(teamDatabase.GetIdDataPairingByIds(pairings[i][j]));
-                    
-                }
-                
+
                 idData.Add(roundIdData);
             }
 
             return idData;
+        }
+
+        private void DetermineNextTournamentBracket()
+        {
+            currentMatchIndex++;
+            if (currentMatchIndex >= pairingsIdData[currentRoundIndex].Count)
+            {
+                currentMatchIndex = 0;
+                currentRoundIndex++;
+            }
+
+            if (currentRoundIndex < pairingsIdData.Count)
+                SimulateTournamentBracket(pairingsIdData[currentRoundIndex][currentMatchIndex]);
+            else
+                TournamentEnded();
         }
 
         /// <summary>
@@ -81,6 +96,8 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
         /// <param name="pairing">Pairing of team ids that are matched against each other.</param>
         private void SimulateTournamentBracket(Tuple<IdData, IdData> pairing)
         {
+            // Console.WriteLine($"{pairing.Item1.Id} vs {pairing.Item2.Id}");
+
             matchSimulator = new MatchSimulator(
                 new MatchScoreManager(pairing),
                 new BallPossessionManager(),
@@ -88,7 +105,8 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
                 new CoinTossManager(),
                 new TeamManager(teamDatabase.GetTeamPairingByIdData(pairing)),
                 new MatchStateManager(),
-                new AdvanceScoreManager());
+                new AdvanceScoreManager(),
+                random);
 
             matchSimulator.OnMatchEnded += HandleMatchEnded;
 
@@ -97,22 +115,13 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
 
         private void HandleMatchEnded(object? sender, MatchScoreEventArgs e)
         {
-            Console.WriteLine($"TournamentSimulator: Match has ended with score " +
-                              $"{e.MatchScore.HomeTeamScore} - {e.MatchScore.AwayTeamScore}.");
-            
-            tournamentScoreManager.AddMatchScore(e.MatchScore);
-            
-            if (currentRoundIndex < pairingsIdData.Count && 
-                currentMatchIndex < pairingsIdData[currentRoundIndex].Count)
-            {
-                SimulateTournamentBracket(pairingsIdData[currentRoundIndex][currentMatchIndex]);
-                currentMatchIndex++;
+            // Console.WriteLine($"Round {currentRoundIndex} Match {currentMatchIndex} " +
+            //                   $"has ended with score " +
+            //                   $"{e.MatchScore.HomeTeamScore} - {e.MatchScore.AwayTeamScore}.");
 
-                if (currentMatchIndex < pairingsIdData[currentRoundIndex].Count) return;
-                currentMatchIndex = 0;
-                currentRoundIndex++;
-            }
-            else TournamentEnded();
+            tournamentScoreManager.AddMatchScore(e.MatchScore);
+
+            DetermineNextTournamentBracket();
         }
 
         private void TournamentEnded()
@@ -129,7 +138,7 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
 
             LeaderboardEventArgs leaderboardEventArgs = new LeaderboardEventArgs(leaderboard);
             OnLeaderboardUpdated?.Invoke(this, leaderboardEventArgs);
-            
+
             iLeaderboardPrinter.PrintLeaderboard(leaderboard);
         }
     }

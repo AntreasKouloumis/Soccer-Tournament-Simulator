@@ -1,4 +1,6 @@
 ﻿
+using SoccerTournamentSimulator.Simulations.Matches;
+
 namespace SoccerTournamentSimulator.Simulations.Players.Actions
 {
     /// <summary>
@@ -34,10 +36,10 @@ namespace SoccerTournamentSimulator.Simulations.Players.Actions
         /// <summary>
         /// Updates advance score when this player action is performed.
         /// </summary>
-        /// <param name="advanceScore">Reference to advance action.</param>
-        public void UpdateAdvanceScore(ref int advanceScore)
+        /// <param name="advanceScoreManager">Advance score manager.</param>
+        public void UpdateAdvanceScore(AdvanceScoreManager advanceScoreManager)
         {
-            advanceScore += LongPassScore;
+            advanceScoreManager.IncrementAdvanceScore(LongPassScore);
         }
     }
 }

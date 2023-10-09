@@ -83,11 +83,11 @@ namespace SoccerTournamentSimulator.Simulations.Players
             {
                 if (successValues[i] > highestSuccess)
                 {
-                    // Move the current largest to second largest
+                    // Move the current largest to second largest.
                     secondHighestSuccess = highestSuccess;
                     secondHighestIndex = highestIndex;
 
-                    // Update the largest value and index
+                    // Update the largest value and index.
                     highestSuccess = successValues[i];
                     highestIndex = i;
                 }

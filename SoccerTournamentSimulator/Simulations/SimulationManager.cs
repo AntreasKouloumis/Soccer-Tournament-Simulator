@@ -24,22 +24,21 @@ namespace SoccerTournamentSimulator.Simulations
 
             tournamentSimulator.OnTournamentEnded += HandleTournamentEnded;
             tournamentSimulator.OnLeaderboardUpdated += HandleLeaderboardUpdated;
+        }
 
+        public void StartSimulation()
+        {
             tournamentSimulator.SimulateTournament();
         }
 
         private void HandleTournamentEnded(object sender, TournamentScoreEventArgs e)
         {
             tournamentSimulator.OnTournamentEnded -= HandleTournamentEnded;
-            
-            Console.WriteLine("SimulationManager: Tournament has ended.");
         }
 
         private void HandleLeaderboardUpdated(object sender, LeaderboardEventArgs e)
         {
             tournamentSimulator.OnLeaderboardUpdated -= HandleLeaderboardUpdated;
-            
-            Console.WriteLine("SimulationManager: Leaderboard has updated.");
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using SoccerTournamentSimulator.Simulations.Players.Actions;
-using SoccerTournamentSimulator.Simulations.Teams;
+﻿using SoccerTournamentSimulator.Simulations.Teams;
 
 namespace SoccerTournamentSimulator.Simulations.Matches
 {
@@ -15,10 +14,10 @@ namespace SoccerTournamentSimulator.Simulations.Matches
         /// a goal against the opposing team.
         /// </summary>
         private int advanceScore;
-        
+
         /// <summary>Advance score at the time of the kickoff, which is the middle of the field.</summary>
         private const int KickoffAdvanceScore = 4;
-        
+
         private const int MaximumAdvanceScore = 9;
 
         private Dictionary<int, PlayerPosition> advanceBrackets = new Dictionary<int, PlayerPosition>
@@ -34,38 +33,56 @@ namespace SoccerTournamentSimulator.Simulations.Matches
             { 8, PlayerPosition.Forward },
             { 9, PlayerPosition.Forward },
         };
-        
-        /// <summary>
-        /// Updates advance score based on the player action that was performed.
-        /// </summary>
-        /// <param name="playerAction">Player action that was performed.</param>
-        public void UpdateAdvanceScore(IPlayerAction playerAction)
+
+        public int IncrementAdvanceScore() => IncrementAdvanceScore(1);
+
+        public int IncrementAdvanceScore(int amount)
         {
-            playerAction.UpdateAdvanceScore(ref advanceScore);
+            int newAdvanceAmount = advanceScore + amount;
+            if (newAdvanceAmount > MaximumAdvanceScore)
+                return advanceScore = 9;
+            return advanceScore += amount;
         }
 
         /// <summary>
         /// Sets the advance score appropriately for the kickoff.
         /// </summary>
-        public void SetAdvanceScoreToKickoff() => advanceScore = KickoffAdvanceScore;
-        
-        public void ResetAdvanceScore() => advanceScore = 0;
+        public int SetAdvanceScoreToKickoff() => advanceScore = KickoffAdvanceScore;
+
+        public int InvertAdvanceScore()
+        {
+            int invertedAdvanceScore = MaximumAdvanceScore - advanceScore;
+            if (invertedAdvanceScore < 0)
+                return advanceScore = 0;
+            return advanceScore = invertedAdvanceScore;
+        }
+
+        public int ResetAdvanceScore() => advanceScore = 0;
 
         public int GetAdvanceScore() => advanceScore;
         
+        public int GetKickoffAdvanceScore() => KickoffAdvanceScore;
+        
+        public int GetMaximumAdvanceScore() => MaximumAdvanceScore;
+
         /// <summary>
         /// Gets player position in the context of a team according to the advance score.
         /// </summary>
         /// <returns>Player position in the context of a team.</returns>
         public PlayerPosition GetPlayerPositionAccordingToAdvanceScore() => advanceBrackets[advanceScore];
-        
+
         /// <summary>
         /// Gets player position in the context of a team according to the advance score
         /// from the perspective of the opposing team.
         /// </summary>
         /// <returns>Player position in the context of a team.</returns>
         public PlayerPosition GetPlayerPositionAccordingToInverseAdvanceScore()
-            => advanceBrackets[MaximumAdvanceScore - advanceScore];
+        {
+            int invertedAdvanceScore = MaximumAdvanceScore - advanceScore;
+            if (invertedAdvanceScore < 0)
+                invertedAdvanceScore = 0;
+            return advanceBrackets[invertedAdvanceScore];
+        }
 
         /// <summary>
         /// Gets the fraction of the advance score in relation to the maximum advance score.

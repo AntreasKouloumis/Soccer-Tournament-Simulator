@@ -2,33 +2,14 @@
 {
     /// <summary>
     /// Simulates interactions between two players in the context of a match.
-    /// <br></br> <i>In an average soccer match, both teams tally about 1,239 interactions
-    /// (1,100 passes, 30 shots, 30 interceptions, 30 dribbles, 40 tackles, 9 saves).
-    /// In half a match that comes out to about 620.</i>
     /// </summary>
     public class InteractionSimulator
     {
-        /// <summary>Lower end of number of interactions per half a match.</summary>
-        public int MinimumInteractionsCount { get ; private set; }
-
-        /// <summary>Higher end of number of interactions per half a match.</summary>
-        public int MaximumInteractionsCount { get ; private set; }
-
-        /// <summary>Number of interactions per half a match.</summary>
-        public int MatchHalfInteractionsCount { get; private set; }
-
-        /// <summary>Number of interactions per match.</summary>
-        public int MatchInteractionsCount { get; private set; }
-
         private Random random;
 
         public InteractionSimulator(Random random)
         {
             this.random = random;
-            MinimumInteractionsCount = 500;
-            MaximumInteractionsCount = 750;
-            MatchHalfInteractionsCount = random.Next(MinimumInteractionsCount, MaximumInteractionsCount + 1);
-            MatchInteractionsCount = MatchHalfInteractionsCount * 2;
         }
 
         /// <summary>

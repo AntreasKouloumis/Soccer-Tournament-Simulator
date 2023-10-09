@@ -1,7 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SoccerTournamentSimulator.Simulations.Matches;
-using SoccerTournamentSimulator.Simulations.Players.Actions;
-using SoccerTournamentSimulator.Simulations.Teams;
 
 namespace SoccerTournamentSimulator.UnitTests.Matches
 {
@@ -9,91 +7,86 @@ namespace SoccerTournamentSimulator.UnitTests.Matches
     public class AdvanceScoreManagerTests
     {
         [TestMethod]
-        public void UpdateAdvanceScore_IncreasesScoreByActionValue()
-        {
-            // Arrange
-            AdvanceScoreManager manager = new AdvanceScoreManager();
-            
-            // Act
-            manager.UpdateAdvanceScore(new LongPassPlayerAction());
-
-            // Assert
-            Assert.AreEqual(2, manager.GetAdvanceScore());
-        }
-
-        [TestMethod]
-        public void SetAdvanceScoreToKickoff_SetsScoreToKickoffValue()
+        public void IncrementAdvanceScore_IncrementsByOne()
         {
             // Arrange
             AdvanceScoreManager manager = new AdvanceScoreManager();
 
             // Act
-            manager.SetAdvanceScoreToKickoff();
+            int originalScore = manager.GetAdvanceScore();
+            int newScore = manager.IncrementAdvanceScore();
 
             // Assert
-            Assert.AreEqual(4, manager.GetAdvanceScore());
+            Assert.AreEqual(originalScore + 1, newScore);
         }
 
         [TestMethod]
-        public void ResetAdvanceScore_ResetsScoreToZero()
+        public void IncrementAdvanceScore_IncrementsByGivenAmount()
         {
             // Arrange
             AdvanceScoreManager manager = new AdvanceScoreManager();
-            manager.UpdateAdvanceScore(new DribblePlayerAction());
+            const int incrementAmount = 3;
 
             // Act
-            manager.ResetAdvanceScore();
+            int originalScore = manager.GetAdvanceScore();
+            int newScore = manager.IncrementAdvanceScore(incrementAmount);
 
             // Assert
-            Assert.AreEqual(0, manager.GetAdvanceScore());
+            Assert.AreEqual(originalScore + incrementAmount, newScore);
         }
 
         [TestMethod]
-        public void GetPlayerPositionAccordingToAdvanceScore_ReturnsCorrectPosition()
-        {
-            // Arrange: Should correspond to PlayerPosition.Forward.
-            AdvanceScoreManager manager = new AdvanceScoreManager();
-            manager.UpdateAdvanceScore(new LongPassPlayerAction());
-            manager.UpdateAdvanceScore(new LongPassPlayerAction());
-            manager.UpdateAdvanceScore(new LongPassPlayerAction());
-            manager.UpdateAdvanceScore(new ShortPassPlayerAction());
-
-            // Act
-            PlayerPosition position = manager.GetPlayerPositionAccordingToAdvanceScore();
-
-            // Assert
-            Assert.AreEqual(PlayerPosition.Forward, position);
-        }
-
-        [TestMethod]
-        public void GetPlayerPositionAccordingToInverseAdvanceScore_ReturnsCorrectPosition()
-        {
-            // Arrange: Should correspond to PlayerPosition.Defender.
-            AdvanceScoreManager manager = new AdvanceScoreManager();
-            manager.UpdateAdvanceScore(new LongPassPlayerAction());
-            manager.UpdateAdvanceScore(new ShortPassPlayerAction());
-
-            // Act
-            PlayerPosition position = manager.GetPlayerPositionAccordingToInverseAdvanceScore();
-
-            // Assert
-            Assert.AreEqual(PlayerPosition.Midfielder, position);
-        }
-
-        [TestMethod]
-        public void GetAdvanceMultiplier_ReturnsCorrectMultiplier()
+        public void IncrementAdvanceScore_DoesNotExceedMaximumScore()
         {
             // Arrange
             AdvanceScoreManager manager = new AdvanceScoreManager();
-            manager.UpdateAdvanceScore(new LongPassPlayerAction());
-            manager.UpdateAdvanceScore(new LongPassPlayerAction());
-            manager.UpdateAdvanceScore(new ShortPassPlayerAction());
+            int maximumScore = manager.GetMaximumAdvanceScore();
 
             // Act
-            float multiplier = manager.GetAdvanceMultiplier();
+            int newScore = manager.IncrementAdvanceScore(maximumScore + 1);
 
-            // Assert: Allow a small tolerance for floating-point comparison.
-            Assert.AreEqual(0.5555556f, multiplier, 0.000001f);
+            // Assert
+            Assert.AreEqual(maximumScore, newScore);
+        }
+
+        [TestMethod]
+        public void SetAdvanceScoreToKickoff_SetsToKickoffScore()
+        {
+            // Arrange
+            AdvanceScoreManager manager = new AdvanceScoreManager();
+
+            // Act
+            int newScore = manager.SetAdvanceScoreToKickoff();
+
+            // Assert
+            Assert.AreEqual(manager.GetKickoffAdvanceScore(), newScore);
+        }
+
+        [TestMethod]
+        public void InvertAdvanceScore_ReturnsInvertedScore()
+        {
+            // Arrange
+            AdvanceScoreManager manager = new AdvanceScoreManager();
+            int originalScore = manager.GetAdvanceScore();
+
+            // Act
+            int invertedScore = manager.InvertAdvanceScore();
+
+            // Assert
+            Assert.AreEqual(manager.GetMaximumAdvanceScore() - originalScore, invertedScore);
+        }
+
+        [TestMethod]
+        public void ResetAdvanceScore_ResetsToZero()
+        {
+            // Arrange
+            AdvanceScoreManager manager = new AdvanceScoreManager();
+
+            // Act
+            int newScore = manager.ResetAdvanceScore();
+
+            // Assert
+            Assert.AreEqual(0, newScore);
         }
     }
 }
