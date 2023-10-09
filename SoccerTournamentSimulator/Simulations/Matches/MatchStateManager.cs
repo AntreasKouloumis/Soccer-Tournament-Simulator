@@ -5,12 +5,12 @@
     /// </summary>
     public class MatchStateManager
     {
-        public MatchState CurrentMatchState { get; private set; } = MatchState.Kickoff;
+        public MatchState MatchState { get; private set; } = MatchState.Kickoff;
         
-        public MatchState MoveToNextState() => ++CurrentMatchState;
+        public MatchState MoveToNextState() => ++MatchState;
 
-        public bool IsFirstHalf() => CurrentMatchState == MatchState.FirstHalf;
+        public bool IsFirstHalf() => MatchState == MatchState.FirstHalf;
         
-        public bool IsFinalWhistle() => CurrentMatchState == MatchState.FinalWhistle;
+        public bool IsFinalWhistle() => MatchState == MatchState.FinalWhistle;
     }
 }

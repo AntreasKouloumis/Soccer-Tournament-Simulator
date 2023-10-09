@@ -20,6 +20,7 @@ namespace SoccerTournamentSimulator.Simulations
                 new RoundRobinPairingsGenerator(),
                 new TournamentScoreManager(),
                 new LeaderboardManager(),
+                new TournamentBracketPrinter(), 
                 new LeaderboardPrinter());
 
             tournamentSimulator.OnTournamentEnded += HandleTournamentEnded;

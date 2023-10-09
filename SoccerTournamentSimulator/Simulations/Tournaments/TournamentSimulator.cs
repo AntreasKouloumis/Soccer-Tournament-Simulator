@@ -19,6 +19,7 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
         private IPairingsGenerator pairingsGenerator;
         private TournamentScoreManager tournamentScoreManager;
         private LeaderboardManager leaderboardManager;
+        private ITournamentBracketPrinter iTournamentBracketPrinter;
         private ILeaderboardPrinter iLeaderboardPrinter;
         private MatchSimulator? matchSimulator;
 
@@ -37,12 +38,14 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
             IPairingsGenerator pairingsGenerator,
             TournamentScoreManager tournamentScoreManager,
             LeaderboardManager leaderboardManager,
+            ITournamentBracketPrinter iTournamentBracketPrinter,
             ILeaderboardPrinter iLeaderboardPrinter)
         {
             this.teamDatabase = teamDatabase;
             this.pairingsGenerator = pairingsGenerator;
             this.tournamentScoreManager = tournamentScoreManager;
             this.leaderboardManager = leaderboardManager;
+            this.iTournamentBracketPrinter = iTournamentBracketPrinter;
             this.iLeaderboardPrinter = iLeaderboardPrinter;
         }
 
@@ -139,6 +142,7 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
             LeaderboardEventArgs leaderboardEventArgs = new LeaderboardEventArgs(leaderboard);
             OnLeaderboardUpdated?.Invoke(this, leaderboardEventArgs);
 
+            iTournamentBracketPrinter.PrintTournamentBracket(tournamentScoreManager.TournamentScore);
             iLeaderboardPrinter.PrintLeaderboard(leaderboard);
         }
     }

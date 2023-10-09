@@ -5,10 +5,6 @@
     /// </summary>
     public class LeaderboardPrinter : ILeaderboardPrinter
     {
-        /// <summary>
-        /// Prints a leaderboard in the console.
-        /// </summary>
-        /// <param name="leaderboard">Leaderboard to print.</param>
         public void PrintLeaderboard(Leaderboard leaderboard)
         {
             Console.WriteLine("_____________________________________________________________________________________________");
