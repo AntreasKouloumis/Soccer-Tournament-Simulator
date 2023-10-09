@@ -36,31 +36,31 @@ Before you can run the Soccer Tournament Manager, ensure you have the following 
 1. Clone this GitHub repository to your local machine using the following command:
 
    ```shell
-   git clone https://github.com/AntreasKouloumis/Soccer-Tournament-Simulator.git
+   $ git clone https://github.com/AntreasKouloumis/Soccer-Tournament-Simulator.git
    ```
 
 2. Navigate to the project directory:
 
    ```shell
-   cd Soccer-Tournament-Manager
+   $ cd Soccer-Tournament-Manager
    ```
 
 3. Build the project using the following command:
 
    ```shell
-   dotnet build
+   $ dotnet build
    ```
    
 4. Navigate to the project directory:
 
    ```shell
-   cd SoccerTournamentSimulator
+   $ cd SoccerTournamentSimulator
    ```
 
 5. Run the application:
 
    ```shell
-   dotnet run
+   $ dotnet run
    ```
 
 The application should now be running, and you can start simulating soccer tournaments!
