@@ -99,8 +99,6 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
         /// <param name="pairing">Pairing of team ids that are matched against each other.</param>
         private void SimulateTournamentBracket(Tuple<IdData, IdData> pairing)
         {
-            // Console.WriteLine($"{pairing.Item1.Id} vs {pairing.Item2.Id}");
-
             matchSimulator = new MatchSimulator(
                 new MatchScoreManager(pairing),
                 new BallPossessionManager(),
@@ -118,10 +116,6 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
 
         private void HandleMatchEnded(object? sender, MatchScoreEventArgs e)
         {
-            // Console.WriteLine($"Round {currentRoundIndex} Match {currentMatchIndex} " +
-            //                   $"has ended with score " +
-            //                   $"{e.MatchScore.HomeTeamScore} - {e.MatchScore.AwayTeamScore}.");
-
             tournamentScoreManager.AddMatchScore(e.MatchScore);
 
             DetermineNextTournamentBracket();

@@ -60,10 +60,10 @@ namespace SoccerTournamentSimulator.UnitTests.Teams
         public void GetOpposingTeamById_InvalidId_ReturnsNull()
         {
             // Arrange
-            var teamManager = new TeamManager(teamsTuple);
+            TeamManager teamManager = new TeamManager(teamsTuple);
 
             // Act
-            var result = teamManager.GetOpposingTeamById(3);
+            Team result = teamManager.GetOpposingTeamById(3);
 
             // Assert
             Assert.IsNull(result);
@@ -73,10 +73,10 @@ namespace SoccerTournamentSimulator.UnitTests.Teams
         public void GetTeam_HomeStatus_ReturnsHomeTeam()
         {
             // Arrange
-            var teamManager = new TeamManager(teamsTuple);
+            TeamManager teamManager = new TeamManager(teamsTuple);
 
             // Act
-            var result = teamManager.GetTeam(TeamStatus.Home);
+            Team result = teamManager.GetTeam(TeamStatus.Home);
 
             // Assert
             Assert.AreEqual(teamsTuple.Item1, result);
@@ -86,10 +86,10 @@ namespace SoccerTournamentSimulator.UnitTests.Teams
         public void GetTeam_AwayStatus_ReturnsAwayTeam()
         {
             // Arrange
-            var teamManager = new TeamManager(teamsTuple);
+            TeamManager teamManager = new TeamManager(teamsTuple);
 
             // Act
-            var result = teamManager.GetTeam(TeamStatus.Away);
+            Team result = teamManager.GetTeam(TeamStatus.Away);
 
             // Assert
             Assert.AreEqual(teamsTuple.Item2, result);

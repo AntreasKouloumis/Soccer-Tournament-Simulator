@@ -16,7 +16,8 @@ namespace SoccerTournamentSimulator.UnitTests.Teams
                 { new Defender(2, "Player2", 0.8f, 0.7f, 0.6f, 0.75f, 0.3f, 0.4f, 0.2f) };
             List<Midfielder> midfielders = new List<Midfielder>
                 { new Midfielder(3, "Player3", 0.85f, 0.75f, 0.7f, 0.8f, 0.4f, 0.5f, 0.2f) };
-            List<Forward> forwards = new List<Forward> { new Forward(4, "Player4", 0.9f, 0.85f, 0.8f, 0.9f, 0.3f, 0.4f, 0.1f) };
+            List<Forward> forwards = new List<Forward>
+                { new Forward(4, "Player4", 0.9f, 0.85f, 0.8f, 0.9f, 0.3f, 0.4f, 0.1f) };
 
             Team team = new Team(1, "Team1", goalKeeper, defenders, midfielders, forwards);
 
