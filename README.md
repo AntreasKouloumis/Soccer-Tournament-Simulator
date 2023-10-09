@@ -8,8 +8,6 @@ Welcome to the Soccer Tournament Manager project! This C# .NET application is a 
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage)
-- [Project Structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
 
