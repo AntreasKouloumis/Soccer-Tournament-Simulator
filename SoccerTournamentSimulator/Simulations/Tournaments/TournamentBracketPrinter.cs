@@ -28,8 +28,6 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
                 Console.WriteLine("_______________________________________________________________");
                 Console.WriteLine();
             }
-            
-            
         }
     }
 }
