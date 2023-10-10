@@ -16,7 +16,7 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
                 Console.WriteLine("_______________________________________________________________");
                 Console.WriteLine($"|                           Round {i + 1, -2}                          |");
                 Console.WriteLine("_______________________________________________________________");
-                Console.WriteLine($"|        Home            |   Score   |        Away            |");
+                Console.WriteLine($"|          Home          |   Score   |          Away          |");
                 Console.WriteLine("_______________________________________________________________");
                 for (int j = 0; j < matchScores[i].Count; j++)
                 {
