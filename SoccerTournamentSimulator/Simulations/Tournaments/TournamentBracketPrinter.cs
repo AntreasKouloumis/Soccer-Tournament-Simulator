@@ -23,7 +23,7 @@ namespace SoccerTournamentSimulator.Simulations.Tournaments
                     Console.WriteLine($"|  {matchScores[i][j].Pairing.Item1.Name, 20}  " +
                                       $"|  {matchScores[i][j].HomeTeamScore, 2} " +
                                       $"- {matchScores[i][j].AwayTeamScore, -2}  " +
-                                      $"|  {matchScores[i][j].Pairing.Item1.Name, -20}  |");
+                                      $"|  {matchScores[i][j].Pairing.Item2.Name, -20}  |");
                 }
                 Console.WriteLine("_______________________________________________________________");
                 Console.WriteLine();

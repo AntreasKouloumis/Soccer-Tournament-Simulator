@@ -1,6 +1,6 @@
-# Soccer Tournament Manager
+# Soccer Tournament Simulator
 
-Welcome to the Soccer Tournament Manager project! This C# .NET application is a soccer tournament management system that simulates and manages soccer matches, player interactions, teams, and leaderboards. It was created as a code assignment for a job application to showcase my programming skills and understanding of object-oriented design.
+Welcome to the Soccer Tournament Simulator project! This C# .NET application is a soccer tournament simulation system that simulates and manages soccer matches, player interactions, teams, and leaderboards. It was created as a code assignment for a job application to showcase my programming skills and understanding of object-oriented design.
 
 ## Table of Contents
 
@@ -13,7 +13,7 @@ Welcome to the Soccer Tournament Manager project! This C# .NET application is a 
 
 ## Features
 
-The Soccer Tournament Manager offers the following features:
+The Soccer Tournament Simulator offers the following features:
 
 - **Tournament Simulation:** You can simulate an entire soccer tournament, including multiple matches and teams.
 - **Match Simulation:** Simulate individual soccer matches, tracking scores, and game events.
@@ -26,7 +26,7 @@ The Soccer Tournament Manager offers the following features:
 
 ### Prerequisites
 
-Before you can run the Soccer Tournament Manager, ensure you have the following prerequisites:
+Before you can run the Soccer Tournament Simulator, ensure you have the following prerequisites:
 
 - [.NET SDK](https://dotnet.microsoft.com/download) installed on your system.
 - A code editor like Visual Studio or Visual Studio Code.
